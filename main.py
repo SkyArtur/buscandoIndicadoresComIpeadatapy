@@ -27,7 +27,6 @@ def buscar_taxas(taxa: Literal['selic', 'ipca', 'cdi'], acumulado_ano_corrente: 
 
     try:
         ano = datetime.today().year
-        hoje = datetime.today().strftime('%Y/%m/%d')
         match taxa:
             case 'selic':
                 selic = ip.timeseries('BM366_TJOVER366', year=ano)
@@ -40,7 +39,7 @@ def buscar_taxas(taxa: Literal['selic', 'ipca', 'cdi'], acumulado_ano_corrente: 
                 cdi = ip.timeseries('BM12_TJCDI12', yearGreaterThan=ano - 2)
                 return prod(cdi, acumulado_ano_corrente)
             case _:
-                raise ValueError(f'Taxa "{taxa}" invalida! Use "selic" or "ipca" or "cdi".')
+                raise ValueError(f'Taxa "{taxa}" inválida! Use "selic" ou "ipca" ou "cdi".')
     except (Exception, TypeError, ValueError, ZeroDivisionError) as error:
         return {'error': str(error)}
 
